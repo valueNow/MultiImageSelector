@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ import me.nereo.multi_image_selector.utils.TimeUtils;
  * 图片选择Fragment
  * Created by Nereo on 2015/4/7.
  */
-public class MultiImageSelectorFragment extends Fragment {
+public class MultiImageSelectorFragment extends Fragment implements ImageGridAdapter.UpdateInterFace{
 
     private static final String TAG = "MultiImageSelector";
 
@@ -101,7 +102,8 @@ public class MultiImageSelectorFragment extends Fragment {
     private int mGridWidth, mGridHeight;
 
     private File mTmpFile;
-
+    int mode;
+    private ArrayList<Image> allImgList = new ArrayList<>();
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -125,7 +127,7 @@ public class MultiImageSelectorFragment extends Fragment {
         mDesireImageCount = getArguments().getInt(EXTRA_SELECT_COUNT);
 
         // 图片选择模式
-        final int mode = getArguments().getInt(EXTRA_SELECT_MODE);
+        mode = getArguments().getInt(EXTRA_SELECT_MODE);
 
         // 默认选择
         if(mode == MODE_MULTI) {
@@ -138,6 +140,7 @@ public class MultiImageSelectorFragment extends Fragment {
         // 是否显示照相机
         mIsShowCamera = getArguments().getBoolean(EXTRA_SHOW_CAMERA, true);
         mImageAdapter = new ImageGridAdapter(getActivity(), mIsShowCamera);
+        mImageAdapter.setInterface(this);
         // 是否显示选择指示器
         mImageAdapter.showSelectIndicator(mode == MODE_MULTI);
 
@@ -240,7 +243,7 @@ public class MultiImageSelectorFragment extends Fragment {
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(mImageAdapter.isShowCamera()){
+              /*  if(mImageAdapter.isShowCamera()){
                     // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
                     if(i == 0){
                         showCameraAction();
@@ -253,7 +256,11 @@ public class MultiImageSelectorFragment extends Fragment {
                     // 正常操作
                     Image image = (Image) adapterView.getAdapter().getItem(i);
                     selectImageFromGrid(image, mode);
-                }
+                }*/
+                Intent intent = new Intent(getActivity(),PreviewActivity.class);
+                intent.putExtra("allImgs",(Serializable)allImgList);
+                intent.putExtra("selectImgs",(Serializable)resultList);
+                startActivity(intent);
             }
         });
 
@@ -298,6 +305,8 @@ public class MultiImageSelectorFragment extends Fragment {
                             Folder folder = (Folder) v.getAdapter().getItem(index);
                             if (null != folder) {
                                 mImageAdapter.setData(folder.images);
+                                allImgList.clear();
+                                allImgList.addAll(folder.images);
                                 mCategoryText.setText(folder.name);
                                 // 设定默认选择
                                 if (resultList != null && resultList.size() > 0) {
@@ -507,7 +516,8 @@ public class MultiImageSelectorFragment extends Fragment {
                     }while(data.moveToNext());
 
                     mImageAdapter.setData(images);
-
+                    allImgList.clear();
+                    allImgList.addAll(images);
                     // 设定默认选择
                     if(resultList != null && resultList.size()>0){
                         mImageAdapter.setDefaultSelected(resultList);
@@ -525,6 +535,22 @@ public class MultiImageSelectorFragment extends Fragment {
 
         }
     };
+
+    @Override
+    public void updateResultList(Image image,int position) {
+        if(mImageAdapter.isShowCamera()){
+            // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
+            if(position == 0){
+                showCameraAction();
+            }else{
+                // 正常操作
+                selectImageFromGrid(image, mode);
+            }
+        }else{
+            // 正常操作
+            selectImageFromGrid(image, mode);
+        }
+    }
 
     /**
      * 回调接口

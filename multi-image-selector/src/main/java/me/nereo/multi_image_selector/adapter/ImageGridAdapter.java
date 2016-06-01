@@ -40,6 +40,14 @@ public class ImageGridAdapter extends BaseAdapter {
     private int mItemSize;
     private GridView.LayoutParams mItemLayoutParams;
 
+   public static  interface UpdateInterFace{
+        void updateResultList(Image image,int position);
+    }
+
+    private UpdateInterFace updateInterFace;
+    public void setInterface(UpdateInterFace updateIn){
+        this.updateInterFace = updateIn;
+    }
     public ImageGridAdapter(Context context, boolean showCamera){
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -192,7 +200,7 @@ public class ImageGridAdapter extends BaseAdapter {
                 }
             }
             if(holde != null) {
-                holde.bindData(getItem(i));
+                holde.bindData(getItem(i),i);
             }
         }
 
@@ -217,8 +225,14 @@ public class ImageGridAdapter extends BaseAdapter {
             view.setTag(this);
         }
 
-        void bindData(final Image data){
+        void bindData(final Image data, final int position){
             if(data == null) return;
+            indicator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateInterFace.updateResultList(data,position);
+                }
+            });
             // 处理单选和多选状态
             if(showSelectIndicator){
                 indicator.setVisibility(View.VISIBLE);
@@ -235,7 +249,6 @@ public class ImageGridAdapter extends BaseAdapter {
                 indicator.setVisibility(View.GONE);
             }
             File imageFile = new File(data.path);
-
             if(mItemSize > 0) {
                 // 显示图片
                 Picasso.with(mContext)
