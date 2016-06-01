@@ -70,6 +70,8 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
     // 请求加载系统照相机
     private static final int REQUEST_CAMERA = 100;
 
+    private static final int REQUEST_PREVIEW = 101;
+
 
     // 结果数据
     private ArrayList<String> resultList = new ArrayList<>();
@@ -259,8 +261,9 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
                 }*/
                 Intent intent = new Intent(getActivity(),PreviewActivity.class);
                 intent.putExtra("allImgs",(Serializable)allImgList);
-                intent.putExtra("selectImgs",(Serializable)resultList);
-                startActivity(intent);
+                intent.putStringArrayListExtra("selectImgs",resultList);
+                intent.putExtra("currentIndex",i);
+                startActivityForResult(intent,REQUEST_PREVIEW);
             }
         });
 
@@ -348,6 +351,16 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
                 if(mTmpFile != null && mTmpFile.exists()){
                     mTmpFile.delete();
                 }
+            }
+        }
+        if(requestCode == REQUEST_PREVIEW){
+            if(resultCode == Activity.RESULT_OK){
+                if(data != null){
+                    ArrayList<String> list = (ArrayList<String>) data.getSerializableExtra("resultList");
+                    resultList.clear();
+                    resultList.addAll(list);
+                }
+                mImageAdapter.setDefaultSelected(resultList);
             }
         }
     }
