@@ -360,6 +360,11 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
                     resultList.clear();
                     resultList.addAll(list);
                 }
+                for(int i=0;i<resultList.size();i++){
+                    if (mCallback != null) {
+                        mCallback.onImageSelected(resultList.get(i));
+                    }
+                }
                 mImageAdapter.setDefaultSelected(resultList);
             }
         }
