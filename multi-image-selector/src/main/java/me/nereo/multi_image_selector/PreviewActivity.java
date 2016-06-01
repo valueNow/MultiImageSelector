@@ -1,10 +1,12 @@
 package me.nereo.multi_image_selector;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import me.nereo.multi_image_selector.bean.Image;
 public class PreviewActivity extends Activity{
     private ImageView selectImv;
     private ViewPager photoPager;
+    private Button completeBtn;
     private PreviewPagerAdapter adapter;
     private ArrayList<Image> allImgs = new ArrayList<>();
     private ArrayList<String> resultImgs = new ArrayList<>();
@@ -30,7 +33,17 @@ public class PreviewActivity extends Activity{
         setContentView(R.layout.preview_layout);
         selectImv = (ImageView) findViewById(R.id.select_imv);
         photoPager = (ViewPager) findViewById(R.id.photo_scan_pager);
+        completeBtn = (Button) findViewById(R.id.complete_btn);
         getIntentInfo();
+        completeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("resultList",resultImgs);
+                setResult(RESULT_OK,intent);
+                finish();
+            }
+        });
         selectImv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

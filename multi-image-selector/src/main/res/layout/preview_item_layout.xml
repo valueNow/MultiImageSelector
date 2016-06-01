@@ -6,7 +6,6 @@
         android:id="@+id/photo_imv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:adjustViewBounds="true"
         android:scaleType="centerCrop">
     </me.nereo.multi_image_selector.view.GestureImageView>
 </LinearLayout>
