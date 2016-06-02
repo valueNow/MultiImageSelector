@@ -24,16 +24,12 @@ public class PreviewPagerAdapter extends PagerAdapter{
 
     Context context;
     ArrayList<Image> photos;
-    int width = 0;
-    int height = 0;
     public PreviewPagerAdapter(Context context,ArrayList<Image> photos) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.photos = photos;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
-        width = wm.getDefaultDisplay().getWidth();
-        height = wm.getDefaultDisplay().getHeight();
     }
     @Override
     public int getCount() {
@@ -53,17 +49,9 @@ public class PreviewPagerAdapter extends PagerAdapter{
         container.addView(view);
         ImageView imv = (ImageView) view.findViewById(R.id.photo_imv);
         File imageFile = new File(bean.path);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        //设置为true,表示解析Bitmap对象，该对象不占内存
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(bean.path, options);
         // 显示图片
         Picasso.with(context)
                 .load(imageFile)
-                .placeholder(R.drawable.default_error)
-                //.error(R.drawable.default_error)
-                .resize(options.outWidth, options.outHeight)
-                .centerCrop()
                 .into(imv);
         return view;
     }
