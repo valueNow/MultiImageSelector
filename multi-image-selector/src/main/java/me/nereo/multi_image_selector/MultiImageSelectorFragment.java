@@ -366,6 +366,13 @@ public class MultiImageSelectorFragment extends Fragment implements ImageGridAda
                     }
                 }
                 mImageAdapter.setDefaultSelected(resultList);
+                if(resultList != null && resultList.size() >0){
+                    // 返回已选择的图片数据
+                    Intent intent = new Intent();
+                    intent.putStringArrayListExtra("select_result", resultList);
+                    getActivity().setResult(getActivity().RESULT_OK, data);
+                    getActivity().finish();
+                }
             }
         }
     }
