@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by meetu on 2016/6/1.
@@ -25,7 +24,6 @@ public class PreviewPagerAdapter extends PagerAdapter{
 
     Context context;
     ArrayList<Image> photos;
-    PhotoViewAttacher mAttacher;
     public PreviewPagerAdapter(Context context,ArrayList<Image> photos) {
         // TODO Auto-generated constructor stub
         this.context = context;
@@ -55,7 +53,6 @@ public class PreviewPagerAdapter extends PagerAdapter{
         Picasso.with(context)
                 .load(imageFile)
                 .into(imv);
-      //  mAttacher = new PhotoViewAttacher(imv);
         return view;
     }
     @Override

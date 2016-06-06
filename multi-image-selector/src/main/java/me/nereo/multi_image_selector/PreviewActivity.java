@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import me.nereo.multi_image_selector.adapter.PreviewPagerAdapter;
 import me.nereo.multi_image_selector.bean.Image;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by meetu on 2016/6/1.
