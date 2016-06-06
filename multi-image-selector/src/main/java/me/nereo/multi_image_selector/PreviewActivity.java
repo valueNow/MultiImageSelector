@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class PreviewActivity extends Activity{
     private ImageView selectImv;
     private ViewPager photoPager;
     private Button completeBtn;
+    private RelativeLayout backRl;
     private PreviewPagerAdapter adapter;
     private ArrayList<Image> allImgs = new ArrayList<>();
     private ArrayList<String> resultImgs = new ArrayList<>();
@@ -34,6 +36,7 @@ public class PreviewActivity extends Activity{
         selectImv = (ImageView) findViewById(R.id.select_imv);
         photoPager = (ViewPager) findViewById(R.id.photo_scan_pager);
         completeBtn = (Button) findViewById(R.id.complete_btn);
+        backRl = (RelativeLayout) findViewById(R.id.back_rl);
         getIntentInfo();
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +61,12 @@ public class PreviewActivity extends Activity{
                         Toast.makeText(PreviewActivity.this,R.string.msg_amount_limit,Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+        backRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
