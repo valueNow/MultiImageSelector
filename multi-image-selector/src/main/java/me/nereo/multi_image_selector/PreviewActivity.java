@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import me.nereo.multi_image_selector.adapter.PreviewPagerAdapter;
 import me.nereo.multi_image_selector.bean.Image;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by meetu on 2016/6/1.
@@ -53,10 +54,20 @@ public class PreviewActivity extends Activity{
                 if(resultImgs.contains(allImgs.get(currentIndex).path)){
                     resultImgs.remove(allImgs.get(currentIndex).path);
                     changeSeiectState();
+                    if(resultImgs.size()>0){
+                        completeBtn.setText("完成("+resultImgs.size()+"/9)");
+                    }else{
+                        completeBtn.setText("完成");
+                    }
                 }else{
                     if(resultImgs.size() < 9){
                         resultImgs.add(allImgs.get(currentIndex).path);
                         changeSeiectState();
+                        if(resultImgs.size()>0){
+                            completeBtn.setText("完成("+resultImgs.size()+"/9)");
+                        }else{
+                            completeBtn.setText("完成");
+                        }
                     }else{
                         Toast.makeText(PreviewActivity.this,R.string.msg_amount_limit,Toast.LENGTH_SHORT).show();
                     }
@@ -75,6 +86,11 @@ public class PreviewActivity extends Activity{
         allImgs = (ArrayList<Image>) getIntent().getSerializableExtra("allImgs");
         resultImgs = getIntent().getStringArrayListExtra("selectImgs");
         currentIndex = getIntent().getIntExtra("currentIndex",0);
+        if(resultImgs.size()>0){
+            completeBtn.setText("完成("+resultImgs.size()+"/9)");
+        }else{
+            completeBtn.setText("完成");
+        }
         setData();
     }
 
