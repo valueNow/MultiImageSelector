@@ -4,31 +4,32 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical">
+
     <android.support.v4.view.ViewPager
         android:id="@+id/photo_scan_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
     <RelativeLayout
         android:id="@+id/title_layout"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="44dp"
+        android:layout_alignParentTop="true"
         android:background="#6cd1c9">
+
         <Button
             android:id="@+id/complete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"
+            android:layout_centerVertical="true"
             android:background="@null"
+            android:gravity="center"
+            android:padding="5dp"
             android:text="完成"
-            />
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
         <RelativeLayout
             android:id="@+id/back_rl"
             android:layout_width="54dp"
@@ -44,18 +45,20 @@
                 android:src="@drawable/main_name_btn_back" />
         </RelativeLayout>
     </RelativeLayout>
+
     <RelativeLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="46dp"
+        android:layout_alignParentBottom="true"
         android:background="#222222">
+
         <ImageView
             android:id="@+id/select_imv"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/btn_unselected"/>
+            android:src="@drawable/btn_unselected" />
     </RelativeLayout>
 </RelativeLayout>
